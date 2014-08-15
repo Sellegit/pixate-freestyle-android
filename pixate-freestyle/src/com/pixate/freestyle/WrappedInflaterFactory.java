@@ -29,9 +29,9 @@ import android.view.View;
 import com.pixate.freestyle.util.PXLog;
 import com.pixate.freestyle.util.ViewUtil;
 
-class WrappedInflaterFactory implements Factory {
+public class WrappedInflaterFactory implements Factory {
 
-    private static final String TAG = WrappedInflaterFactory.class.getSimpleName();
+    public static final String TAG = WrappedInflaterFactory.class.getSimpleName();
 
     /*
      * (non-Javadoc)
@@ -39,15 +39,15 @@ class WrappedInflaterFactory implements Factory {
      * "http://github.com/android/platform_frameworks_policies_base/blob/c5d93b3b6a/phone/com/android/internal/policy/impl/PhoneLayoutInflater.java#L27"
      * > Android source for these prefixes. </a>
      */
-    private static final String[] sKnownClassPrefixes = new String[] { "android.widget.",
+    public static final String[] sKnownClassPrefixes = new String[] { "android.widget.",
             "android.webkit.", "android.view." };
 
-    private static Field sFactorySetField = null;
+    public static Field sFactorySetField = null;
 
-    private Factory mOriginalFactory = null;
-    private LayoutInflater mInflater = null;
+    protected Factory mOriginalFactory = null;
+    protected LayoutInflater mInflater = null;
 
-    WrappedInflaterFactory(Activity activity) {
+    public WrappedInflaterFactory(Activity activity) {
         mInflater = activity.getLayoutInflater();
         mOriginalFactory = mInflater.getFactory();
     }
@@ -83,7 +83,7 @@ class WrappedInflaterFactory implements Factory {
 
     }
 
-    private static void initReflection() {
+    public static void initReflection() {
         try {
             sFactorySetField = LayoutInflater.class.getDeclaredField("mFactorySet");
             sFactorySetField.setAccessible(true);
@@ -92,9 +92,9 @@ class WrappedInflaterFactory implements Factory {
         }
     }
 
-    private static Map<Object, Boolean> activitiesWithWrappedInflater = new WeakHashMap<Object, Boolean>();
+    protected static Map<Object, Boolean> activitiesWithWrappedInflater = new WeakHashMap<Object, Boolean>();
 
-    static void applyTo(Activity activity) {
+    public static void applyTo(Activity activity) {
         if (activitiesWithWrappedInflater.containsKey(activity)) {
             // Already done this, so exit.
             return;

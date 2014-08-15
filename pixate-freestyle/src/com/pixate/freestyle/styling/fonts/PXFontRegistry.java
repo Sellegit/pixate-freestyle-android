@@ -21,6 +21,7 @@ import java.util.Map;
 
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.pixate.freestyle.util.PXLog;
 
@@ -92,7 +93,7 @@ public class PXFontRegistry {
         return typeface;
     }
 
-    private static String deriveKey(String family, String weight, String style) {
+    public static String deriveKey(String family, String weight, String style) {
         return String.format("%s:%s:%s", family, weight, style);
     }
 }
